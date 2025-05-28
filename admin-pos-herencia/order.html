@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HerenciaPOS - Order History</title>
+     <div id="orderDetailsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeOrderDetailsModal()">&times;</span>
+            <h2>Order Details</h2>
+            <div id="modalOrderDetailsContent">
+            </div>
+        </div>
+    </div>
+
+    <div id="upcomingFeatureOverlay" class="overlay">
+        <div class="overlay-content">
+            <i class="fas fa-clock"></i>
+            <h2>Coming Soon!</h2>
+            <p>This feature is under development and will be available soon.</p>
+        </div>
+    </div>s://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/order.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-app-compat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-firestore-compat.min.js"></script>
+    
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar" id="sidebar">
+            <div class="logo">
+                <div class="logo-text">Herencia</div>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-title">GENERAL</div>
+                <a href="index.html" class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    Overview
+                </a>
+                <a href="order.html" class="nav-item active">
+                    <i class="fas fa-money-bill-wave"></i>
+                    Orders
+                </a>
+                <a href="product.html" class="nav-item">
+                    <i class="fas fa-tasks"></i>
+                    Products
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-users"></i>
+                    Cashiers
+                </a>
+                <a href="#" class="nav-item" onclick="showUpcomingFeature(); return false;">
+                    <i class="fas fa-chart-bar"></i>
+                    Report
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-title">SUPPORT</div>
+                <a href="#" class="nav-item" onclick="showUpcomingFeature(); return false;">
+                    <i class="fas fa-question-circle"></i>
+                    Help Center
+                </a>
+                <a href="#" class="nav-item" onclick="showUpcomingFeature(); return false;">
+                    <i class="fas fa-cog"></i>
+                    Setting
+                </a>
+            </div>
+        </div>
+
+        <div class="main-content" id="mainContent">
+            <div class="header">
+                <div class="header-left">
+                    <button class="mobile-menu-btn" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div>
+                        <h1>Order History</h1>
+                        <p>View and manage your order transactions</p>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="search-container">
+                        <div class="search-bar" id="searchBar" onclick="toggleSearch()">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Search here..." id="searchInput">
+                        </div>
+                    </div>
+                    <div class="profile-btn">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" alt="Profile">
+                    </div>
+                </div>
+            </div>
+
+            <div class="search-section">
+                <div class="search-container">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search by Order ID, Customer Name, or Email..." id="searchInput" oninput="filterOrders()">
+                    </div>
+                </div>
+            </div>
+            <div class="filters-section">
+                <div class="filters-row">
+                    <div class="filters-left">
+                        <div class="filter-group">
+                            <label>Order Status</label>
+                            <select class="filter-select" id="statusFilter">
+                                <option value="">All Status</option>
+                                <option value="completed">Completed</option>
+                                <option value="pending">Pending</option>
+                                <option value="processing">Processing</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Payment Status</label>
+                            <select class="filter-select" id="paymentFilter">
+                                <option value="">All Payments</option>
+                                <option value="paid">Paid</option>
+                                <option value="unpaid">Unpaid</option>
+                                <option value="refunded">Refunded</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Date Range</label>
+                            <select class="filter-select" id="dateFilter">
+                                <option value="">All Time</option>
+                                <option value="today">Today</option>
+                                <option value="week">This Week</option>
+                                <option value="month">This Month</option>
+                                <option value="quarter">This Quarter</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Amount Range</label>
+                            <select class="filter-select" id="amountFilter">
+                                <option value="">All Amounts</option>
+                                <option value="0-50">$0 - $50</option>
+                                <option value="50-100">$50 - $100</option>
+                                <option value="100-500">$100 - $500</option>
+                                <option value="500+">$500+</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filter-buttons">
+                        <button class="btn-apply" onclick="applyFilters()">Apply</button>
+                        <button class="btn-clear" onclick="clearFilters()">Clear</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="results-info" id="resultsInfo">
+                Showing orders: 1-10 of 156
+            </div>
+
+            <div class="orders-section">
+                <div class="table-container">
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th>ORDER ID</th>
+                                <th>CASHIER ID</th>
+                                <th>DATE</th>
+                                <th>STATUS</th>
+                                <th>PAYMENT</th>
+                                <th>ITEMS</th>
+                                <th>TOTAL</th>
+                                <th>ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="pagination-section">
+                <div class="pagination-info" id="paginationInfo">
+                    Showing 1 to 10 of 156 results
+                </div>
+                <div class="pagination-controls">
+                    <button class="pagination-btn" onclick="goToPage(currentPage - 1)" id="prevBtn">
+                        <i class="fas fa-chevron-left"></i>
+                        Previous
+                    </button>
+                    <div id="pageNumbers"></div>
+                    <button class="pagination-btn" onclick="goToPage(currentPage + 1)" id="nextBtn">
+                        Next
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <div class="page-size-selector">
+                    <span>Rows per page:</span>
+                    <select id="pageSizeSelect" onchange="changePageSize(this.value)">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="orderDetailsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeOrderDetailsModal()">&times;</span>
+            <h2>Order Details</h2>
+            <div id="modalOrderDetailsContent">
+            </div>
+        </div>
+    </div>
+    <div id="upcomingFeatureOverlay" class="overlay">
+        <div class="overlay-content">
+            <i class="fas fa-clock"></i>
+            <h2>Coming Soon!</h2>
+            <p>This feature is under development and will be available soon.</p>
+        </div>
+    </div>
+
+    <script type="module" src="js/order.js"></script>
+</body>
+</html>

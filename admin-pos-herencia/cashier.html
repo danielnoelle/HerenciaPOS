@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HerenciaPOS - Cashier</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-app-compat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-firestore-compat.min.js"></script>
+    <link rel="stylesheet" href="css/cashier.css">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar" id="sidebar">
+            <div class="logo">
+                <div class="logo-text">Herencia</div>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-title">GENERAL</div>
+                <a href="index.html" class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    Overview
+                </a>
+                <a href="order.html" class="nav-item">
+                    <i class="fas fa-shopping-cart"></i>
+                    Orders
+                </a>
+                <a href="product.html" class="nav-item">
+                    <i class="fas fa-tasks"></i>
+                    Products
+                </a>
+                <a href="cashier.html" class="nav-item active">
+                    <i class="fas fa-users"></i>
+                    Cashiers
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-chart-bar"></i>
+                    Report
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-title">SUPPORT</div>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-question-circle"></i>
+                    Help Center
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    Setting
+                </a>
+            </div>
+        </div>
+
+        <div class="main-content" id="mainContent">
+            <div class="header">
+                <div class="header-left">
+                    <button class="mobile-menu-btn" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1>Cashier Management</h1>
+                    <p>View and manage all customer orders</p>
+                </div>
+            </div>
+
+            <div class="action-bar">
+                <div class="action-left">
+                    <button class="btn-primary" onclick="openCashierModal()">
+                        <i class="fas fa-user-plus"></i>
+                        Add New Cashier
+                    </button>
+                    <button class="btn-secondary" onclick="exportCashiersCSV()">
+                        <i class="fas fa-download"></i>
+                        Export CSV
+                    </button>
+                </div>
+                <div class="search-container">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search Cashiers by Name or Email" id="searchInput" oninput="filterCashiers()">
+                    </div>
+                </div>
+            </div>
+
+            <div class="filters-section">
+                <div class="filters-row">
+                    <div class="filters-left">
+                        <div class="filter-group">
+                            <label>Status</label>
+                            <select class="filter-select" id="statusFilter">
+                                <option value="">All Status</option>
+                                <option value="active">Active</option>
+                                <option value="disabled">Disabled</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Date Range (Joined)</label>
+                            <select class="filter-select" id="dateFilter">
+                                <option value="">All Time</option>
+                                <option value="today">Today</option>
+                                <option value="week">This Week</option>
+                                <option value="month">This Month</option>
+                                <option value="year">This Year</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Sort By</label>
+                            <select class="filter-select" id="sortFilter" onchange="applySorting()">
+                                <option value="date-desc">Latest First</option>
+                                <option value="date-asc">Oldest First</option>
+                                <option value="amount-desc">Amount (High to Low)</option>
+                                <option value="amount-asc">Amount (Low to High)</option>
+                                <option value="customer-asc">Name (A-Z)</option>
+                                <option value="customer-desc">Name (Z-A)</option>
+                                <option value="status-asc">Status (A-Z)</option>
+                                <option value="status-desc">Status (Z-A)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filter-buttons">
+                        <button class="btn-apply" onclick="applyFilters()">Apply</button>
+                        <button class="btn-clear" onclick="clearFilters()">Clear</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="results-info" id="resultsInfo">
+                Showing 1-10 of 0 cashiers
+            </div>
+
+            <div class="orders-section">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" class="order-checkbox" onchange="toggleAllCashiers(this)"></th>
+                            <th onclick="sortTable('name')">NAME <i class="fas fa-sort sort-icon"></i></th>
+                            <th onclick="sortTable('email')">EMAIL <i class="fas fa-sort sort-icon"></i></th>
+                            <th onclick="sortTable('uid')">USER ID <i class="fas fa-sort sort-icon"></i></th>
+                            <th onclick="sortTable('joinedDate')">JOINED DATE <i class="fas fa-sort sort-icon"></i></th>
+                            <th onclick="sortTable('status')">STATUS <i class="fas fa-sort sort-icon"></i></th>
+                            <th>ACTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cashiersTableBody">
+                    </tbody>
+                </table>
+                
+                <div class="pagination-section">
+                    <div class="pagination-info" id="paginationInfo">
+                        Showing 1-10 of 456 entries
+                    </div>
+                    <div class="pagination-controls" id="paginationControls">
+                    </div>
+                    <div class="items-per-page">
+                        <label>Show:</label>
+                        <select id="itemsPerPage" onchange="changeItemsPerPage()">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                        <span>entries</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="addCashierModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Add New Cashier</h2>
+                <button class="close-btn" onclick="closeCashierModal()">&times;</button>
+            </div>
+            <form id="addCashierForm" onsubmit="handleCashierFormSubmit(event)">
+                <div class="form-group">
+                    <label class="form-label" for="cashierNameInput">Name</label>
+                    <input type="text" class="form-input" id="cashierNameInput" name="cashierName" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="cashierEmailInput">Email</label>
+                    <input type="email" class="form-input" id="cashierEmailInput" name="email" required>
+                </div>
+                <div class="form-group" id="passwordFormGroup">
+                    <label class="form-label" for="cashierPasswordInput">Password</label>
+                    <input type="password" class="form-input" id="cashierPasswordInput" name="password" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeCashierModal()">Cancel</button>
+                    <button type="submit" class="btn-primary" id="cashierFormSubmitButton">Add Cashier</button>
+                </div>
+            </form>
+                </div>
+                </div>
+
+    <script type="module" src="js/cashier.js"></script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+:root {
+    --primary-color: #FF6B00;
+    --primary-hover: #e65c00;
+    --text-color: #333;
+    --error-color: #dc2626;
+    --background-color: #f4f6f8;
+    --input-bg: #ffffff;
+    --input-border: #e1e5e9;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    background-color: var(--background-color);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 360px;
+}
+
+.login-box {
+    background: white;
+    padding: 32px;
+    border-radius: 12px;
+    box-shadow: var(--box-shadow);
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+h1 {
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 12px;
+}
+
+h1 span {
+    color: var(--primary-color);
+}
+
+.welcome-text {
+    color: #666;
+    font-size: 16px;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-group i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 16px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 12px 12px 40px;
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: var(--input-bg);
+    transition: all 0.2s ease;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.1);
+}
+
+.input-group input::placeholder {
+    color: #999;
+}
+
+.error-message {
+    color: var(--error-color);
+    font-size: 14px;
+    text-align: center;
+    margin: 8px 0;
+    min-height: 20px;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.login-btn:hover {
+    background-color: var(--primary-hover);
+}
+
+@media (max-width: 480px) {
+    .login-box {
+        padding: 24px;
+    }
+
+    .login-container {
+        max-width: 100%;
+    }
+}

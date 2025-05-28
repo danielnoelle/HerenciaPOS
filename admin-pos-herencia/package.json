@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@imagekit/javascript": "^5.1.0",
+    "firebase": "^11.8.1"
+  }
+}

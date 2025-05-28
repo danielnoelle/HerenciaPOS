@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "889871397832",
+    "project_id": "herenciapos",
+    "storage_bucket": "herenciapos.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:889871397832:android:7517af198648fa183186fd",
+        "android_client_info": {
+          "package_name": "com.example.final_pos_herencia"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoAL4_X3hRiojp-ZShFj5jBmXUCp0hk5k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

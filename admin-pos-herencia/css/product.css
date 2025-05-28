@@ -1,0 +1,926 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8fafc;
+    color: #334155;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 260px;
+    background: white;
+    border-right: 1px solid #e2e8f0;
+    padding: 20px 0;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+}
+
+.sidebar.mobile-hidden {
+    transform: translateX(-100%);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px;
+}
+
+.logo-icon {
+    font-size: 24px;
+    color: #FF6B00;
+}
+
+.logo-text {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+}
+
+.nav-section {
+    margin-bottom: 30px;
+}
+
+.nav-title {
+    color: #94a3b8;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0 20px;
+    margin-bottom: 10px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    color: #64748b;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.nav-item:hover {
+    background-color: #f1f5f9;
+    color: #0f172a;
+}
+
+.nav-item.active {
+    background-color: #ecfdf5;
+    color: #059669;
+    border-right: 3px solid #10b981;
+}
+
+.nav-item i {
+    width: 20px;
+    font-size: 16px;
+}
+
+.main-content {
+    flex: 1;
+    margin-left: 260px;
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+}
+
+.main-content.expanded {
+    margin-left: 0;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.header-left h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 5px;
+}
+
+.header-left p {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #334155;
+    cursor: pointer;
+    padding: 8px;
+}
+.action-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.action-left {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-secondary {
+    background: white;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-secondary:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-bar {
+    width: 300px;
+    height: 44px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: white;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    gap: 10px;
+}
+
+.search-bar input {
+    border: none;
+    outline: none;
+    background: transparent;
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #334155;
+}
+
+.search-bar input::placeholder {
+    color: #94a3b8;
+}
+
+.search-bar i {
+    color: #64748b;
+    font-size: 16px;
+}
+
+.product-stats {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.stats-tabs {
+    display: flex;
+    gap: 30px;
+    font-size: 14px;
+}
+
+.stat-tab {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.stat-tab.active {
+    color: #10b981;
+    font-weight: 600;
+}
+
+.stat-number {
+    background: #f1f5f9;
+    color: #475569;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.stat-tab.active .stat-number {
+    background: #10b981;
+    color: white;
+}
+
+/* Filters */
+.filters-section {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.filters-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.filters-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.filter-select {
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 8px 12px;
+    background: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #475569;
+    cursor: pointer;
+    min-width: 120px;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-apply {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-clear {
+    background: transparent;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+}
+
+.results-info {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+/* Products Table */
+.products-section {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.products-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.products-table th {
+    background: #f8fafc;
+    padding: 16px 20px;
+    text-align: left;
+    font-weight: 600;
+    color: #475569;
+    font-size: 14px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.products-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+.product-row:hover {
+    background: #f8fafc;
+}
+
+.product-checkbox {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #d1d5db;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.product-image {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.product-name {
+    font-weight: 500;
+    color: #1e293b;
+    margin-bottom: 2px;
+}
+
+.product-description {
+    color: #64748b;
+    font-size: 12px;
+}
+
+.stock-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.stock-badge.in-stock {
+    background: #d1fae5;
+    color: #059669;
+}
+
+.stock-badge.low-inventory {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.stock-badge.out-of-stock {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.price {
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.category-badge {
+    background: #eff6ff;
+    color: #2563eb;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.star {
+    color: #fbbf24;
+}
+
+.rating-count {
+    color: #64748b;
+    font-size: 12px;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    color: #64748b;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    min-width: 150px;
+    z-index: 1000;
+    display: none;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-item {
+    padding: 12px 16px;
+    color: #475569;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background: #f8fafc;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    width: 90%;
+    max-width: 750px; /* Increased max-width for the modal */
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.modal-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #64748b;
+    cursor: pointer;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    font-size: 13px;
+    color: #475569;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+.form-input,
+.form-input[type="text"],
+.form-input[type="number"],
+textarea.form-input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #334155;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    /* max-width: 400px; */ /* Removed or adjust if inputs are too wide */
+}
+
+.form-input:focus {
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+/* New Grid Layout for Modal Form */
+.modal-form-grid-layout {
+    display: flex;
+    flex-direction: column; /* Stack rows vertically */
+    gap: 0; /* No gap between rows, form-group will handle internal spacing */
+}
+
+.form-row {
+    display: flex;
+    gap: 20px; /* Gap between columns in a row */
+ /* Space between rows */
+}
+
+.form-group-half {
+    flex: 1; /* Each takes half the space in a row */
+    /* form-group styles will apply for margin-bottom if it's the last element in a column */
+}
+
+/* Ensure the last form-row doesn't have extra margin if followed by image section */
+.modal-form-grid-layout .form-row:last-child {
+    margin-bottom: 0; /* Or adjust as needed if image section needs more space above */
+}
+
+/* Adjustments for Product Image Section if it's outside the grid */
+.file-drop-area {
+    border: 2px dashed #cbd5e1;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+    background-color: #f8fafc;
+    position: relative;
+    width: 100%;
+    min-height: 330px; /* Increased min-height for a larger drop area */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px; /* Add space above the image drop area */
+}
+
+/* Remove or comment out the old flex column styles if no longer needed elsewhere */
+/*
+.modal-form-columns {
+    display: flex;
+    gap: 20px; 
+}
+
+.form-column-main {
+    flex: 2; 
+}
+
+.form-column-image {
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+}
+*/
+
+/* Style for the Description textarea */
+#productDescription {
+    resize: none; /* Prevent manual resizing */
+    height: 40px; /* Set a fixed height, consistent with other single-line inputs */
+    line-height: normal; /* Use a standard line height for single-line appearance */
+    /* Padding (10px 12px) will be inherited from the .form-input class */
+    /* This makes its initial height match other input fields */
+}
+
+/* File Drop Area */
+.file-drop-area {
+    border: 2px dashed #cbd5e1;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+    background-color: #f8fafc;
+    position: relative;
+    width: 100%;
+    min-height: 330px; /* Increased min-height for a larger drop area */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.file-drop-area:hover {
+    border-color: #10b981;
+}
+
+.file-drop-area.dragover {
+    border-color: #059669; /* Highlight when dragging over */
+}
+
+.file-drop-default-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-preview {
+    max-width: 100%;
+    max-height: 230px; /* Increased max-height for a larger image preview */
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid #e2e8f0;
+}
+
+.file-drop-icon {
+    font-size: 36px;
+    color: #94a3b8;
+    margin-bottom: 15px;
+}
+
+.file-drop-message {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    color: #334155;
+    margin-bottom: 5px;
+}
+
+.file-drop-types {
+    display: block;
+    font-size: 12px;
+    color: #64748b;
+    margin-bottom: 15px; /* Adjusted margin */
+}
+
+.file-input-hidden {
+    /* Visually hide the actual file input */
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.btn-browse-file {
+    background-color: white;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-browse-file:hover {
+    background-color: #f1f5f9;
+    border-color: #cbd5e1;
+}
+
+.file-name-preview {
+    margin-top: 10px; /* Adjusted margin */
+    font-size: 13px; /* Adjusted font size */
+    color: #475569;
+    font-weight: 500;
+    word-break: break-all;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+        z-index: 1500; /* Ensure sidebar is above content when active */
+    }
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .header-left h1 {
+        font-size: 20px;
+    }
+    .header-left p {
+        font-size: 12px;
+    }
+
+    .action-bar {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .action-left {
+        flex-direction: column; /* Stack buttons on small screens */
+        align-items: stretch; /* Make buttons full width */
+    }
+    .action-left .btn-primary,
+    .action-left .btn-secondary {
+        width: 100%;
+        text-align: center;
+    }
+
+    .search-bar {
+        width: 100%;
+    }
+
+    .filters-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filters-left {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+    }
+
+    .filter-group {
+        width: 100%;
+        justify-content: space-between; /* Align label and select nicely */
+    }
+    .filter-select {
+        flex-grow: 1; /* Allow select to take available space */
+    }
+
+    .filter-buttons {
+        width: 100%;
+        flex-direction: column; /* Stack filter buttons */
+    }
+    .filter-buttons .btn-apply,
+    .filter-buttons .btn-clear {
+        width: 100%;
+    }
+
+    .products-table th,
+    .products-table td {
+        padding: 10px 8px; /* Reduce padding on smaller screens */
+        font-size: 12px;
+    }
+
+    .product-image {
+        width: 36px;
+        height: 36px;
+    }
+
+    /* Modal responsiveness */
+    .modal-content {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .modal-title {
+        font-size: 20px;
+    }
+
+    .form-row {
+        flex-direction: column; /* Stack form groups in a row on small screens */
+        gap: 0; /* Remove gap, form-group margin will handle it */
+        margin-bottom: 0; /* Remove bottom margin from row, rely on form-group */
+    }
+    .form-row .form-group-half {
+        margin-bottom: 15px; /* Add margin to stacked form groups */
+    }
+    .modal-form-grid-layout .form-row:last-child .form-group-half:last-child {
+        margin-bottom: 0; /* No margin for the very last item in the grid */
+    }
+
+    .file-drop-area {
+        min-height: 200px; /* Adjust drop area height for smaller screens */
+    }
+
+    .image-preview {
+        max-height: 150px; /* Adjust image preview height */
+    }
+
+    .modal-footer {
+        flex-direction: column;
+    }
+    .modal-footer .btn-primary,
+    .modal-footer .btn-secondary {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-left {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .mobile-menu-btn {
+        margin-bottom: 10px;
+    }
+
+    .products-table {
+        display: block;
+        overflow-x: auto; /* Allow horizontal scrolling for table */
+    }
+    .products-table thead, .products-table tbody, .products-table tr, .products-table th, .products-table td {
+        display: block;
+    }
+    .products-table thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+    .products-table tr {
+        border: 1px solid #e2e8f0;
+        margin-bottom: 10px;
+    }
+    .products-table td {
+        border: none;
+        border-bottom: 1px solid #f1f5f9;
+        position: relative;
+        padding-left: 50%; /* Space for data label */
+        text-align: right;
+    }
+    .products-table td:before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        width: calc(50% - 20px);
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: bold;
+    }
+    /* Add data-label attributes to td elements in JS or ensure they are present in HTML for this to work */
+    /* Example: productsTableBody.rows[i].cells[j].setAttribute('data-label', headers[j].textContent); */
+
+}

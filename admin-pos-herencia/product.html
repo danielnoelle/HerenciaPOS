@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HerenciaPOS - Product Management</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/product.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-app-compat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-firestore-compat.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar" id="sidebar">
+            <div class="logo">
+                <i class="fas fa-utensils logo-icon"></i>
+                <div class="logo-text">Herencia</div>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-title">GENERAL</div>
+                <a href="index.html" class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    Overview
+                </a>
+                <a href="order.html" class="nav-item">
+                    <i class="fas fa-money-bill-wave"></i>
+                    Orders
+                </a>
+                <a href="product.html" class="nav-item active">
+                    <i class="fas fa-tasks"></i>
+                    Products
+                </a>
+                <a href="cashier.html" class="nav-item">
+                    <i class="fas fa-users"></i>
+                    Cashiers
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-chart-bar"></i>
+                    Report
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-title">SUPPORT</div>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-question-circle"></i>
+                    Help Center
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    Setting
+                </a>
+            </div>
+        </div>
+
+        <div class="main-content" id="mainContent">
+            <div class="header">
+                <div class="header-left">
+                    <button class="mobile-menu-btn" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1>Product Management</h1>
+                    <p>Manage your product inventory and details</p>
+                </div>
+            </div>
+
+            <div class="action-bar">
+                <div class="action-left">
+                    <button class="btn-primary" onclick="openProductModal()">
+                        <i class="fas fa-plus"></i>
+                        Add New Product
+                    </button>
+                    <button class="btn-secondary" onclick="exportProductsCSV()">
+                        <i class="fas fa-download"></i>
+                        Export CSV
+                    </button>
+                </div>
+                <div class="search-container">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search Products by Name or ID" id="searchInput" oninput="filterProducts()">
+                    </div>
+                </div>
+            </div>
+            <div class="filters-section">
+                <div class="filters-row">
+                    <div class="filters-left">
+                        <div class="filter-group">
+                            <label>Product Category</label>
+                            <select class="filter-select" id="categoryFilter">
+                                <option value="">All Categories</option>
+                                <option value="electronics">Electronics</option>
+                                <option value="clothing">Clothing</option>
+                                <option value="food">Food & Beverage</option>
+                                <option value="books">Books</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Product Type</label>
+                            <select class="filter-select" id="typeFilter">
+                                <option value="">All Types</option>
+                                <option value="simple">Simple</option>
+                                <option value="variable">Variable</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Last Modified</label>
+                            <select class="filter-select" id="modifiedFilter">
+                                <option value="">All Time</option>
+                                <option value="today">Today</option>
+                                <option value="week">This Week</option>
+                                <option value="month">This Month</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filter-buttons">
+                        <button class="btn-apply" onclick="applyFilters()">Apply</button>
+                        <button class="btn-clear" onclick="clearFilters()">Clear</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="results-info" id="resultsInfo">
+                View Products: 8/28
+            </div>
+
+            <div class="products-section">
+                <table class="products-table">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" class="product-checkbox" onchange="toggleAllProducts(this)"></th>
+                            <th>IMAGE</th>
+                            <th data-sort-key="id">ID <i class="fas fa-sort"></i></th>
+                            <th data-sort-key="name">NAME <i class="fas fa-sort"></i></th>
+                            <th data-sort-key="categoryId">CATEGORY <i class="fas fa-sort"></i></th>
+                            <th data-sort-key="price">PRICE <i class="fas fa-sort"></i></th>
+                            <th data-sort-key="varieties">VARIETIES <i class="fas fa-sort"></i></th>
+                            <th data-sort-key="description">DESCRIPTION <i class="fas fa-sort"></i></th>
+                            <th>ACTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productsTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="productModalTitle">Add New Product</h2>
+                <button class="close-btn" onclick="closeProductModal()">&times;</button>
+            </div>
+            <form id="productForm" onsubmit="handleProductFormSubmit(event)">
+                <div class="modal-form-grid-layout">
+                    <div class="form-row">
+                        <div class="form-group form-group-half">
+                            <label for="productId" class="form-label">Product ID</label>
+                            <input type="text" class="form-input" id="productId" name="productId" required>
+                        </div>
+                        <div class="form-group form-group-half">
+                            <label for="productCategoryId" class="form-label">Category</label>
+                            <select class="form-input" id="productCategoryId" name="categoryId" required>
+                                <option value="" disabled selected>Select Category</option>
+                                <option value="Main">Main</option>
+                                <option value="Soup">Soup</option>
+                                <option value="Dessert">Dessert</option>
+                                <option value="Snacks">Snacks</option>
+                                <option value="Drinks">Drinks</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group form-group-half">
+                            <label for="productName" class="form-label">Product Name</label>
+                            <input type="text" class="form-input" id="productName" name="productName" required>
+                        </div>
+                        <div class="form-group form-group-half">
+                            <label for="productPrice" class="form-label">Price</label>
+                            <input type="number" class="form-input" id="productPrice" name="productPrice" step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group form-group-half">
+                            <label for="productVarieties" class="form-label">Varieties</label>
+                            <select class="form-input" id="productVarieties" name="productVarieties">
+                                <option value="Regular">Regular</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Large">Large</option>
+                            </select>
+                        </div>
+                        <div class="form-group form-group-half">
+                            <label for="productDescription" class="form-label">Description</label>
+                            <textarea class="form-input" id="productDescription" name="productDescription"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Product Image</label>
+                    <div id="fileDropArea" class="file-drop-area">
+                        <input type="file" id="productImageFile" name="productImageFile" accept="image/*" style="display: none;">
+                        <img id="imagePreview" class="image-preview" src="#" alt="Image Preview" style="display: none;">
+                        <div id="fileDropDefaultContent" class="file-drop-default-content">
+                            <i class="fas fa-cloud-upload-alt file-drop-icon"></i>
+                            <p class="file-drop-message">Drag & drop an image here, or</p>
+                            <button type="button" id="browseFileBtn" class="btn-browse-file">Browse File</button>
+                            <p id="fileNamePreview" class="file-name-preview"></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="submit" class="btn-primary" id="productFormSubmitButton">Add Product</button>
+                    <button type="button" class="btn-secondary" onclick="closeProductModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="js/product.js"></script>
+</body>
+</html>
