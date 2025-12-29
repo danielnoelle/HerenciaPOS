@@ -16,7 +16,7 @@
    </a>
 </p>
 
-<img src="assets/images/dashboard.png" alt="La Herencia POS" width="600" style="border-radius:20px;margin:32px 0;"/>
+<img src="final_pos_herencia/assets/images/dashboard.png" alt="La Herencia POS" width="600" style="border-radius:20px;margin:32px 0;"/>
 
 </div>
 
@@ -141,21 +141,21 @@ Secure your business with Firebase authentication and comprehensive time logging
 <table>
 <tr>
 <td width="50%">
-<img src="assets/images/login.png" alt="Login Screen" width="100%" style="border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.1);"/>
+<img src="final_pos_herencia/assets/images/login.png" alt="Login Screen" width="100%" style="border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.1);"/>
 <p align="center"><em>Secure Login Interface</em></p>
 </td>
 <td width="50%">
-<img src="assets/images/dashboard.png" alt="POS Interface" width="100%" style="border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.1);"/>
+<img src="final_pos_herencia/assets/images/dashboard.png" alt="POS Interface" width="100%" style="border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.1);"/>
 <p align="center"><em>POS Order Dashboard</em></p>
 </td>
 </tr>
 <tr>
 <td width="50%">
-<img src="assets/images/leftbar.png" alt="Order History" width="100%" style="border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.1);"/>
+<img src="final_pos_herencia/assets/images/leftbar.png" alt="Order History" width="100%" style="border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.1);"/>
 <p align="center"><em>Left Bar</em></p>
 </td>
 <td width="50%">
-<img src="assets/images/rightbar.png" alt="Order Details" width="100%" style="border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.1);"/>
+<img src="final_pos_herencia/assets/images/rightbar.png" alt="Order Details" width="100%" style="border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.1);"/>
 <p align="center"><em>Right Bar</em></p>
 </td>
 </tr>
